@@ -1,0 +1,92 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* React Flow overrides */
+.react-flow__background {
+  background-color: #0F172A;
+}
+
+.react-flow__minimap {
+  background-color: #1E293B;
+  border: 1px solid #334155;
+  border-radius: 8px;
+}
+
+.react-flow__controls {
+  border: 1px solid #334155;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.react-flow__controls-button {
+  background: #1E293B;
+  border-bottom: 1px solid #334155;
+  color: #94A3B8;
+}
+
+.react-flow__controls-button:hover {
+  background: #334155;
+  color: #F1F5F9;
+}
+
+.react-flow__edge-path {
+  stroke: #F59E0B;
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated .react-flow__edge-path {
+  stroke-dasharray: 8;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  from { stroke-dashoffset: 16; }
+  to { stroke-dashoffset: 0; }
+}
+
+.react-flow__handle {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #0F172A;
+}
+
+.react-flow__handle-left {
+  left: -5px;
+}
+
+.react-flow__handle-right {
+  right: -5px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #0F172A; }
+::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* Component drag ghost */
+.dragging-ghost {
+  opacity: 0.5;
+  transform: scale(0.95);
+}
+
+/* Glow effects */
+.glow-yellow {
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.glow-green {
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+}
+
+.glow-blue {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+/* Node selection ring */
+.react-flow__node.selected > div {
+  outline: 2px solid #F59E0B;
+  outline-offset: 2px;
+}
