@@ -51,12 +51,12 @@ const SolarNode = memo(({ data, selected, id }) => {
       {/* Content */}
       <div className="flex items-center gap-3">
         <div
-          className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+          className="w-7 h-7 rounded-lg flex items-center justify-center flex-shrink-0"
           style={{ background: `${data.color}22`, border: `1px solid ${data.color}44` }}
         >
           <i
             className={`fa-solid ${data.icon}`}
-            style={{ color: data.color, fontSize: 18 }}
+            style={{ color: data.color, fontSize: 13 }}
           />
         </div>
         <div className="min-w-0">
