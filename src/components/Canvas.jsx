@@ -20,7 +20,7 @@ const Canvas = () => {
   const reactFlowWrapper = useRef(null)
   const [reactFlowInstance, setReactFlowInstance] = React.useState(null)
 
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode, clearSelection } =
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode, clearSelection, openWizard } =
     useStore((s) => ({
       nodes: s.nodes,
       edges: s.edges,
@@ -29,6 +29,7 @@ const Canvas = () => {
       onConnect: s.onConnect,
       addNode: s.addNode,
       clearSelection: s.clearSelection,
+      openWizard: s.openWizard,
     }))
 
   const onDragOver = useCallback((e) => {
@@ -116,11 +117,17 @@ const Canvas = () => {
       )}
 
       {/* Top toolbar overlay */}
-      <div className="absolute top-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-slate-800/90 backdrop-blur border border-slate-700/60 rounded-xl px-4 py-2 shadow-xl">
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 flex flex-wrap items-center gap-2 bg-slate-800/90 backdrop-blur border border-slate-700/60 rounded-xl px-4 py-2 shadow-xl">
         <i className="fa-solid fa-circle-info text-slate-400" style={{ fontSize: 12 }} />
         <span className="text-xs text-slate-400">
           Drag to move • Connect handles to wire • <kbd className="text-slate-300 bg-slate-700 px-1 py-0.5 rounded text-xs">Del</kbd> to remove
         </span>
+        <button
+          onClick={openWizard}
+          className="ml-2 rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs text-slate-200 transition hover:border-yellow-400 hover:text-white"
+        >
+          Reconfigure
+        </button>
       </div>
     </div>
   )

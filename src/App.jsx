@@ -2,6 +2,7 @@ import React from 'react'
 import Sidebar from './components/Sidebar'
 import Canvas from './components/Canvas'
 import InfoPanel from './components/InfoPanel'
+import SetupWizard from './components/SetupWizard'
 
 const App = () => {
   return (
@@ -9,6 +10,7 @@ const App = () => {
       <Sidebar />
       <Canvas />
       <InfoPanel />
+      <SetupWizard />
     </div>
   )
 }
