@@ -1,6 +1,6 @@
 export async function fetchAnthropicSpec(prompt) {
   console.log('API Key starts with:', import.meta.env.VITE_ANTHROPIC_API_KEY?.slice(0, 10));
-  const response = await fetch('https://api.anthropic.com/v1/messages/', {
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
