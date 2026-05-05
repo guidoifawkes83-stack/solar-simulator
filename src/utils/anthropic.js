@@ -1,6 +1,6 @@
 export async function fetchAnthropicSpec(prompt) {
   console.log('API Key starts with:', import.meta.env.VITE_ANTHROPIC_API_KEY?.slice(0, 10));
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
+  const response = await fetch('https://api.anthropic.com/v1/messages/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -9,7 +9,7 @@ export async function fetchAnthropicSpec(prompt) {
       'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-3-sonnet-20240229',
       max_tokens: 1000,
       messages: [{ role: 'user', content: prompt }],
     }),
