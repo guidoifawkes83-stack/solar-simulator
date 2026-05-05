@@ -131,7 +131,43 @@ const Canvas = () => {
         >
           Reconfigure
         </button>
+        <button
+          onClick={autoWire}
+          disabled={autoWireLoading}
+          className="ml-2 rounded-full border border-slate-700 bg-slate-900 px-3 py-1.5 text-xs text-slate-200 transition hover:border-yellow-400 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {autoWireLoading ? (
+            <>
+              <i className="fa-solid fa-spinner fa-spin mr-1" style={{ fontSize: 10 }} />
+              Auto-Wiring...
+            </>
+          ) : (
+            <>
+              <i className="fa-solid fa-magic-wand-sparkles mr-1" style={{ fontSize: 10 }} />
+              Auto-Wire
+            </>
+          )}
+        </button>
       </div>
+
+      {/* Auto-wire explanation toast */}
+      {autoWireExplanation && (
+        <div className="absolute top-20 left-1/2 -translate-x-1/2 bg-slate-800/95 backdrop-blur border border-slate-700 rounded-lg px-4 py-3 shadow-xl max-w-md">
+          <div className="flex items-start gap-3">
+            <i className="fa-solid fa-lightbulb text-yellow-400 mt-0.5" style={{ fontSize: 14 }} />
+            <div className="flex-1">
+              <p className="text-slate-200 text-sm font-medium mb-1">Auto-Wire Complete</p>
+              <p className="text-slate-400 text-xs leading-relaxed">{autoWireExplanation}</p>
+            </div>
+            <button
+              onClick={() => useStore.getState().setAutoWireExplanation('')}
+              className="text-slate-500 hover:text-slate-300 transition"
+            >
+              <i className="fa-solid fa-x" style={{ fontSize: 10 }} />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

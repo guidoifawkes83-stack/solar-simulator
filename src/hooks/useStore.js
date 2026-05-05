@@ -343,6 +343,7 @@ const useStore = create((set, get) => ({
   goToWizardStep: (step) => set({ wizardStep: step }),
   updateWizardData: (updates) =>
     set({ wizardData: { ...get().wizardData, ...updates } }),
+  setAutoWireExplanation: (explanation) => set({ autoWireExplanation: explanation }),
 
   onNodesChange: (changes) => {
     set({ nodes: applyNodeChanges(changes, get().nodes) })
