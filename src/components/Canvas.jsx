@@ -20,7 +20,7 @@ const Canvas = () => {
   const reactFlowWrapper = useRef(null)
   const [reactFlowInstance, setReactFlowInstance] = React.useState(null)
 
-  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode, clearSelection, openWizard } =
+  const { nodes, edges, onNodesChange, onEdgesChange, onConnect, addNode, clearSelection, openWizard, autoWire, autoWireLoading, autoWireExplanation } =
     useStore((s) => ({
       nodes: s.nodes,
       edges: s.edges,
@@ -30,6 +30,9 @@ const Canvas = () => {
       addNode: s.addNode,
       clearSelection: s.clearSelection,
       openWizard: s.openWizard,
+      autoWire: s.autoWire,
+      autoWireLoading: s.autoWireLoading,
+      autoWireExplanation: s.autoWireExplanation,
     }))
 
   const onDragOver = useCallback((e) => {

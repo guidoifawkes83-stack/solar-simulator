@@ -6,6 +6,7 @@ import {
   findPanelStringConfig,
   parseNumber,
 } from '../utils/systemHelpers'
+import { autoWireSystem } from '../utils/anthropic'
 
 let nodeIdCounter = 1
 export const genNodeId = () => `node_${nodeIdCounter++}`
@@ -298,6 +299,8 @@ const useStore = create((set, get) => ({
   wizardStep: 1,
   wizardData: initialWizardData,
   storedConfig: storedConfig || null,
+  autoWireLoading: false,
+  autoWireExplanation: '',
 
   loadStoredConfig: () => {
     const config = loadLocalConfig()
@@ -575,6 +578,44 @@ const useStore = create((set, get) => ({
 
     get().saveConfig(nodes, edges)
     get().recalcStats()
+  },
+
+  autoWire: async () => {
+    const nodes = get().nodes
+    if (nodes.length === 0) return
+
+    set({ autoWireLoading: true, autoWireExplanation: '' })
+
+    try {
+      const components = nodes.map(node => ({
+        id: node.id,
+        type: node.type,
+        label: node.data.label,
+        specs: node.data.specs || {},
+      }))
+
+      const result = await autoWireSystem(components)
+
+      if (result.edges && Array.isArray(result.edges)) {
+        const newEdges = result.edges.map((edge, index) => ({
+          id: `auto_edge_${Date.now()}_${index}`,
+          source: edge.source,
+          target: edge.target,
+          label: edge.label || '',
+          animated: true,
+          style: { stroke: '#F59E0B', strokeWidth: 2 },
+        }))
+
+        set({ edges: newEdges, autoWireExplanation: result.explanation || 'Auto-wired successfully' })
+      } else {
+        set({ autoWireExplanation: 'Failed to parse wiring configuration' })
+      }
+    } catch (error) {
+      console.error('Auto-wire error:', error)
+      set({ autoWireExplanation: 'Error during auto-wiring: ' + error.message })
+    } finally {
+      set({ autoWireLoading: false })
+    }
   },
 
   recalcStats: () => {

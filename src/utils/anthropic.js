@@ -73,6 +73,27 @@ Return ONLY a JSON object with keys:
 type, maxPVVoltage, ratedCurrent, batteryVoltage.
 Use units where appropriate and keep values concise.
 `,
+  wiring: (components) => `
+You are a solar system wiring expert. Given the following components on a canvas:
+
+${components.map(c => `- ${c.type}: ${c.label} (specs: ${JSON.stringify(c.specs)})`).join('\n')}
+
+Design the optimal wiring configuration for this solar system. Consider:
+- Inverter MPPT voltage range and max input current
+- Panel Voc, Vmp, Isc, Imp for string sizing
+- Battery charging requirements
+- Charge controller compatibility
+- Grid connection for hybrid systems
+
+Return ONLY a valid JSON object with:
+{
+  "edges": [{"source": "node_id", "target": "node_id", "label": "optional label"}],
+  "explanation": "Brief explanation of the wiring strategy",
+  "strings": [{"panels": ["node_id1", "node_id2"], "voltage": 164.8, "current": 10.5, "label": "String 1: 4S × 41.2V = 164.8V"}]
+}
+
+Make sure edges connect compatible ports (DC+, DC-, AC, etc.).
+`,
 }
 
 export async function lookupComponentSpecs(componentType, query) {
@@ -81,4 +102,10 @@ export async function lookupComponentSpecs(componentType, query) {
   if (!promptBuilder) return {}
   const prompt = promptBuilder(query)
   return await fetchAnthropicSpec(prompt)
+}
+
+export async function autoWireSystem(components) {
+  const prompt = prompts.wiring(components)
+  const result = await fetchAnthropicSpec(prompt)
+  return result
 }
