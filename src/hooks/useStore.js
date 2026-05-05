@@ -598,14 +598,35 @@ const useStore = create((set, get) => ({
       const result = await autoWireSystem(components)
 
       if (result.edges && Array.isArray(result.edges)) {
-        const newEdges = result.edges.map((edge, index) => ({
-          id: `auto_edge_${Date.now()}_${index}`,
-          source: edge.source,
-          target: edge.target,
-          label: edge.label || '',
-          animated: true,
-          style: { stroke: '#F59E0B', strokeWidth: 2 },
-        }))
+        const stringColors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'] // blue, green, yellow, red, purple
+
+        const newEdges = result.edges.map((edge, index) => {
+          let style = { stroke: '#F59E0B', strokeWidth: 2 }
+          let label = edge.label || ''
+
+          // If strings are provided, color-code and label them
+          if (result.strings && Array.isArray(result.strings)) {
+            const stringIndex = result.strings.findIndex(str =>
+              str.panels && str.panels.includes(edge.source) && str.panels.includes(edge.target)
+            )
+            if (stringIndex >= 0) {
+              const string = result.strings[stringIndex]
+              style.stroke = stringColors[stringIndex % stringColors.length]
+              if (!label && string.label) {
+                label = string.label
+              }
+            }
+          }
+
+          return {
+            id: `auto_edge_${Date.now()}_${index}`,
+            source: edge.source,
+            target: edge.target,
+            label,
+            animated: true,
+            style,
+          }
+        })
 
         set({ edges: newEdges, autoWireExplanation: result.explanation || 'Auto-wired successfully' })
       } else {
