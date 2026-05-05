@@ -1,25 +1,27 @@
 export async function fetchAnthropicSpec(prompt) {
+  console.log('API Key starts with:', import.meta.env.VITE_ANTHROPIC_API_KEY?.slice(0, 10));
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': import.meta.env.VITE_ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01',
       'anthropic-dangerous-direct-browser-access': 'true',
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-20250514',
+      model: 'claude-3-5-sonnet-20241022',
       max_tokens: 1000,
       messages: [{ role: 'user', content: prompt }],
     }),
   })
 
   if (!response.ok) {
+    console.log('Response status:', response.status, response.statusText);
     throw new Error(`Anthropic lookup failed: ${response.statusText}`)
   }
 
   const data = await response.json()
-  const content =
-    data?.choices?.[0]?.message?.content || data?.completion || data?.response || ''
+  const content = data.content?.[0]?.text || ''
 
   return parseAnthropicJson(content)
 }
@@ -45,9 +47,10 @@ const prompts = {
   inverter: (query) => `
 You are a solar system spec assistant.
 Provide inverter specs for the model "${query}".
-Return ONLY a JSON object with keys:
+Return ONLY a valid JSON object with keys:
 ratedPower, maxInputVoltage, mpptVoltageRange, maxInputCurrent, acOutputVoltage, efficiency.
 Use units where appropriate and keep values concise.
+Do not include any other text, explanation, or formatting.
 `,
   solarPanel: (query) => `
 You are a solar equipment database assistant.
