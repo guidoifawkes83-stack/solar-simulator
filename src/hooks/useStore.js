@@ -25,9 +25,9 @@ const loadLocalConfig = () => {
 
 const initialWizardData = {
   installationType: 'Residential',
-  location: '',
-  estimatedPSH: 4.5,
-  voltageStandard: '240V AC',
+  location: 'Philippines',
+  estimatedPSH: 5.0,
+  voltageStandard: '230V AC, 60Hz',
   inverterQuery: '',
   inverter: { brandModel: '', specs: {} },
   panels: { brandModel: '', count: 1, specs: {} },

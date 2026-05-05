@@ -272,7 +272,7 @@ const SetupWizard = () => {
                 <div className="space-y-5">
                   <div className="space-y-2">
                     <label className="text-sm font-medium text-slate-200">
-                      City / Country
+                      🇵🇭 City / Country
                     </label>
                     <input
                       type="text"

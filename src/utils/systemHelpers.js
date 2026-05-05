@@ -11,8 +11,8 @@ export const estimatePeakSunHours = (location) => {
   if (/(desert|sahara|arizona|nevada|egypt|australia|sydney|las vegas)/.test(normalized)) {
     return 6.0
   }
-  if (/(spain|greece|mexico|california|florida|texas)/.test(normalized)) {
-    return 5.5
+  if (/(spain|greece|mexico|california|florida|texas|philippines)/.test(normalized)) {
+    return 5.0
   }
   if (/(india|china|brazil|south africa)/.test(normalized)) {
     return 5.0
@@ -27,6 +27,9 @@ export const determineVoltageStandard = (location) => {
   }
   if (/(china|russia|brazil|india)/.test(normalized)) {
     return '380V AC'
+  }
+  if (/(philippines)/.test(normalized)) {
+    return '230V AC, 60Hz'
   }
   return '240V AC'
 }
